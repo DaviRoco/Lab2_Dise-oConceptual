@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1fyqoel" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.12.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:process id="Process_1vp8plu" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1d50ls4</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1d50ls4" sourceRef="StartEvent_1" targetRef="registrarUsuario" />
+    <bpmn:sequenceFlow id="Flow_1ayzfa4" sourceRef="registrarUsuario" targetRef="solicitarCredito" />
+    <bpmn:endEvent id="Event_06dove6">
+      <bpmn:incoming>Flow_1lbvjj6</bpmn:incoming>
+      <bpmn:incoming>Flow_1v7akik</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="registrarUsuario" name="Registro de Usuario" camunda:formKey="camunda-forms:/forms/form_1.form">
+      <bpmn:incoming>Flow_1d50ls4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ayzfa4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="solicitarCredito" name="Solicitud de Credito" camunda:formKey="camunda-forms:/forms/form_2.form">
+      <bpmn:incoming>Flow_1ayzfa4</bpmn:incoming>
+      <bpmn:outgoing>Flow_05fdnoz</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="Gateway_0bvsag0">
+      <bpmn:incoming>Flow_05fdnoz</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lz9k03</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1vg88k5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_05fdnoz" sourceRef="solicitarCredito" targetRef="Gateway_0bvsag0" />
+    <bpmn:task id="montoPrestamoHipotecario" name="Calcular monto préstamo hipotecario">
+      <bpmn:incoming>Flow_1vg88k5</bpmn:incoming>
+      <bpmn:outgoing>Flow_1lbvjj6</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1lbvjj6" sourceRef="montoPrestamoHipotecario" targetRef="Event_06dove6" />
+    <bpmn:task id="montoPrestamoPersona" name="Calcular Monto préstamo Personal">
+      <bpmn:incoming>Flow_1lz9k03</bpmn:incoming>
+      <bpmn:outgoing>Flow_1v7akik</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="Flow_1lz9k03" sourceRef="Gateway_0bvsag0" targetRef="montoPrestamoPersona">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{tipo== "personal"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_1v7akik" sourceRef="montoPrestamoPersona" targetRef="Event_06dove6" />
+    <bpmn:sequenceFlow id="Flow_1vg88k5" sourceRef="Gateway_0bvsag0" targetRef="montoPrestamoHipotecario">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{tipo== "hipotecario"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1vp8plu">
+      <bpmndi:BPMNEdge id="Flow_1ayzfa4_di" bpmnElement="Flow_1ayzfa4">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1d50ls4_di" bpmnElement="Flow_1d50ls4">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05fdnoz_di" bpmnElement="Flow_05fdnoz">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="685" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lbvjj6_di" bpmnElement="Flow_1lbvjj6">
+        <di:waypoint x="1020" y="117" />
+        <di:waypoint x="1192" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1lz9k03_di" bpmnElement="Flow_1lz9k03">
+        <di:waypoint x="710" y="142" />
+        <di:waypoint x="710" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1v7akik_di" bpmnElement="Flow_1v7akik">
+        <di:waypoint x="760" y="280" />
+        <di:waypoint x="1210" y="280" />
+        <di:waypoint x="1210" y="135" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vg88k5_di" bpmnElement="Flow_1vg88k5">
+        <di:waypoint x="735" y="117" />
+        <di:waypoint x="920" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14jixj6_di" bpmnElement="registrarUsuario">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_156nbav_di" bpmnElement="solicitarCredito">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06dove6_di" bpmnElement="Event_06dove6">
+        <dc:Bounds x="1192" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0bvsag0_di" bpmnElement="Gateway_0bvsag0" isMarkerVisible="true">
+        <dc:Bounds x="685" y="92" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1sr9yt6_di" bpmnElement="montoPrestamoPersona">
+        <dc:Bounds x="660" y="240" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17bzxnk_di" bpmnElement="montoPrestamoHipotecario">
+        <dc:Bounds x="920" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

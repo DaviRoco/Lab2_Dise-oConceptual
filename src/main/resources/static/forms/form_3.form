@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 2,
+  "components": [
+    {
+      "text": "# Calcular Monto préstamo personal",
+      "type": "text",
+      "id": "Field_0iejt5j"
+    },
+    {
+      "label": "Monto",
+      "type": "textfield",
+      "id": "Field_1gm4b8x",
+      "key": "monto"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0xx36n7"
+}
